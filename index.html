@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>Portal Akses Sistem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-slate-100 min-h-screen flex items-center justify-center p-4 font-sans text-slate-800"
+  >
+    <main
+      class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden"
+    >
+      <!-- Header Branding -->
+      <div class="bg-sky-700 px-6 py-7 text-center text-white">
+        <div
+          class="w-16 h-16 mx-auto mb-3 bg-white rounded-xl p-2 flex items-center justify-center shadow-sm"
+        >
+          <!-- Ganti src dengan URL logo Anda atau biarkan ikon default -->
+          <img
+            id="brandLogo"
+            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            alt="Logo Instansi"
+            class="w-full h-full object-contain"
+          />
+        </div>
+        <h1 id="brandTitle" class="text-xl font-bold tracking-tight">
+          Portal Sistem Informasi
+        </h1>
+        <p id="brandSubtitle" class="text-sky-100 text-xs mt-1">
+          Silakan masuk menggunakan akun terdaftar
+        </p>
+      </div>
+
+      <!-- Container Alert -->
+      <div class="px-6 pt-5">
+        <div
+          id="alertBox"
+          class="hidden rounded-xl p-3.5 text-sm font-medium"
+        ></div>
+      </div>
+
+      <!-- VIEW 1: FORM LOGIN -->
+      <form id="loginView" class="p-6 space-y-5">
+        <div>
+          <label
+            for="username"
+            class="block text-sm font-semibold text-slate-700 mb-1.5"
+            >Username</label
+          >
+          <input
+            type="text"
+            id="username"
+            required
+            autocapitalize="none"
+            autocomplete="username"
+            placeholder="Masukkan username"
+            class="w-full px-4 py-3 text-base rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600 transition"
+          />
+        </div>
+
+        <div>
+          <label
+            for="password"
+            class="block text-sm font-semibold text-slate-700 mb-1.5"
+            >Password</label
+          >
+          <div class="relative">
+            <input
+              type="password"
+              id="password"
+              required
+              autocomplete="current-password"
+              placeholder="Masukkan password"
+              class="w-full pl-4 pr-12 py-3 text-base rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-sky-600 transition"
+            />
+            <button
+              type="button"
+              id="togglePassword"
+              aria-label="Tampilkan atau sembunyikan password"
+              class="absolute inset-y-0 right-0 px-3.5 flex items-center text-slate-500 hover:text-slate-700 focus:outline-none"
+            >
+              <!-- Ikon Mata Terbuka -->
+              <svg
+                id="eyeOpen"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+              <!-- Ikon Mata Tertutup -->
+              <svg
+                id="eyeClosed"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 hidden"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          id="submitBtn"
+          class="w-full bg-sky-700 hover:bg-sky-800 active:bg-sky-900 text-white font-semibold py-3.5 px-4 rounded-xl shadow-sm transition text-base disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Masuk Sekarang
+        </button>
+
+        <!-- Bantuan Admin -->
+        <div class="pt-2 text-center border-t border-slate-100">
+          <p class="text-xs text-slate-500">
+            Lupa password atau kendala akses?
+            <a
+              id="adminContactLink"
+              href="#"
+              target="_blank"
+              class="text-sky-700 font-semibold hover:underline"
+              >Hubungi Admin</a
+            >
+          </p>
+        </div>
+      </form>
+
+      <!-- VIEW 2: PORTAL MULTI-LINK & LOGOUT (Muncul jika sesi aktif / punya >1 link) -->
+      <div id="portalView" class="hidden p-6 space-y-5">
+        <div
+          class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex items-center justify-between"
+        >
+          <div>
+            <p class="text-xs text-slate-500">Login aktif sebagai:</p>
+            <p id="activeUsername" class="font-bold text-slate-800 text-sm"></p>
+          </div>
+          <button
+            type="button"
+            id="logoutBtn"
+            class="text-xs font-semibold bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 px-3 py-2 rounded-lg transition"
+          >
+            Logout
+          </button>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-slate-700 mb-3">
+            Pilih Tujuan Akses Anda:
+          </p>
+          <div id="linksContainer" class="space-y-2.5"></div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // ==========================================
+      // KONFIGURASI SISTEM (SESUAIKAN BAGIAN INI)
+      // ==========================================
+      const APP_CONFIG = {
+        SCRIPT_URL:
+          "https://script.google.com/macros/s/AKfycbyyqF01dPy7EofqqPY5IqCDmPRqjJoTCsmpPP5MlDwozXmfULHBVu6eg0ih2boxN5HO/exec",
+        BRAND_TITLE: "Portal Sistem Informasi",
+        BRAND_SUBTITLE: "Silakan masuk menggunakan akun terdaftar",
+        LOGO_URL: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+        ADMIN_WA_URL:
+          "https://wa.me/6281234567890?text=Halo%20Admin,%20saya%20membutuhkan%20reset%20password%20akun%20portal.",
+        MAX_ATTEMPTS: 5,
+        LOCKOUT_SECONDS: 60,
+      };
+
+      // Inisialisasi Branding
+      document.getElementById("brandTitle").textContent =
+        APP_CONFIG.BRAND_TITLE;
+      document.getElementById("brandSubtitle").textContent =
+        APP_CONFIG.BRAND_SUBTITLE;
+      document.getElementById("brandLogo").src = APP_CONFIG.LOGO_URL;
+      document.getElementById("adminContactLink").href =
+        APP_CONFIG.ADMIN_WA_URL;
+
+      // Elemen DOM
+      const loginView = document.getElementById("loginView");
+      const portalView = document.getElementById("portalView");
+      const alertBox = document.getElementById("alertBox");
+      const submitBtn = document.getElementById("submitBtn");
+      const passwordInput = document.getElementById("password");
+      const togglePasswordBtn = document.getElementById("togglePassword");
+      const eyeOpen = document.getElementById("eyeOpen");
+      const eyeClosed = document.getElementById("eyeClosed");
+
+      // Key Penyimpanan Lokal
+      const SESSION_KEY = "portal_auth_session_v1";
+      const ATTEMPT_KEY = "portal_login_attempts_v1";
+
+      // Fitur Show/Hide Password
+      togglePasswordBtn.addEventListener("click", () => {
+        const isPassword = passwordInput.type === "password";
+        passwordInput.type = isPassword ? "text" : "password";
+        eyeOpen.classList.toggle("hidden", isPassword);
+        eyeClosed.classList.toggle("hidden", !isPassword);
+      });
+
+      function showAlert(msg, type = "error") {
+        alertBox.textContent = msg;
+        alertBox.className =
+          type === "error"
+            ? "rounded-xl p-3.5 text-sm font-medium bg-red-50 text-red-700 border border-red-200"
+            : "rounded-xl p-3.5 text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200";
+        alertBox.classList.remove("hidden");
+      }
+
+      // Manajemen Rate Limiting
+      function checkLockout() {
+        const attemptData = JSON.parse(
+          localStorage.getItem(ATTEMPT_KEY) || '{"count":0,"lockUntil":0}',
+        );
+        const now = Date.now();
+        if (attemptData.lockUntil > now) {
+          const remaining = Math.ceil((attemptData.lockUntil - now) / 1000);
+          showAlert(
+            `Terlalu banyak percobaan gagal. Coba lagi dalam ${remaining} detik.`,
+          );
+          submitBtn.disabled = true;
+          return true;
+        }
+        submitBtn.disabled = false;
+        return false;
+      }
+
+      function recordFailedAttempt() {
+        const attemptData = JSON.parse(
+          localStorage.getItem(ATTEMPT_KEY) || '{"count":0,"lockUntil":0}',
+        );
+        attemptData.count += 1;
+        if (attemptData.count >= APP_CONFIG.MAX_ATTEMPTS) {
+          attemptData.lockUntil =
+            Date.now() + APP_CONFIG.LOCKOUT_SECONDS * 1000;
+          attemptData.count = 0;
+        }
+        localStorage.setItem(ATTEMPT_KEY, JSON.stringify(attemptData));
+        checkLockout();
+      }
+
+      function resetAttempts() {
+        localStorage.removeItem(ATTEMPT_KEY);
+      }
+
+      // Penanganan Sesi & Redirect Otomatis
+      function handleSessionSuccess(sessionData, isAutoLogin = false) {
+        localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
+        const links = sessionData.links || [];
+
+        // Jika hanya memiliki 1 link tujuan, langsung arahkan di tab yang sama
+        if (links.length === 1) {
+          showAlert(
+            isAutoLogin
+              ? "Sesi aktif ditemukan. Mengalihkan..."
+              : "Login berhasil! Mengalihkan...",
+            "success",
+          );
+          window.location.href = links[0].url;
+          return;
+        }
+
+        // Jika memiliki lebih dari 1 link, tampilkan portal pilihan
+        loginView.classList.add("hidden");
+        portalView.classList.remove("hidden");
+        alertBox.classList.add("hidden");
+        document.getElementById("activeUsername").textContent =
+          sessionData.username;
+
+        const container = document.getElementById("linksContainer");
+        container.innerHTML = "";
+
+        links.forEach((link) => {
+          const a = document.createElement("a");
+          a.href = link.url; // Membuka di tab yang sama
+          a.className =
+            "flex items-center justify-between w-full p-4 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-xl text-sky-900 font-semibold text-sm transition";
+          a.innerHTML = `
+          <span>${link.label}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        `;
+          container.appendChild(a);
+        });
+      }
+
+      // Cek Sesi Saat Halaman Dibuka (Poin 8)
+      window.addEventListener("DOMContentLoaded", () => {
+        checkLockout();
+        const savedSession = localStorage.getItem(SESSION_KEY);
+        if (savedSession) {
+          try {
+            const parsed = JSON.parse(savedSession);
+            if (parsed && parsed.links && parsed.links.length > 0) {
+              handleSessionSuccess(parsed, true);
+            }
+          } catch (e) {
+            localStorage.removeItem(SESSION_KEY);
+          }
+        }
+      });
+
+      // Proses Submit Login
+      loginView.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (checkLockout()) return;
+
+        alertBox.classList.add("hidden");
+        const username = document.getElementById("username").value;
+        const password = passwordInput.value;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Memverifikasi...";
+
+        try {
+          const res = await fetch(APP_CONFIG.SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ username, password }),
+          });
+
+          const data = await res.json();
+
+          if (data.status === "success") {
+            resetAttempts();
+            handleSessionSuccess(
+              { username: data.username, links: data.links },
+              false,
+            );
+          } else {
+            recordFailedAttempt();
+            if (!checkLockout()) {
+              showAlert(data.message || "Username atau password salah.");
+            }
+          }
+        } catch (err) {
+          showAlert(
+            "Gagal terhubung ke server. Periksa koneksi internet Anda.",
+          );
+        } finally {
+          if (!checkLockout()) {
+            submitBtn.disabled = false;
+          }
+          submitBtn.textContent = "Masuk Sekarang";
+        }
+      });
+
+      // Tombol Logout (Poin 10)
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem(SESSION_KEY);
+        portalView.classList.add("hidden");
+        loginView.classList.remove("hidden");
+        loginView.reset();
+        showAlert("Anda telah keluar dari sesi.", "success");
+      });
+    </script>
+  </body>
+</html>
